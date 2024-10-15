@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:41:34 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/15 16:34:07 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:26:33 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ int	print_specifier(const char *s, va_list args)
 		return (ft_print_c(args));
 	else if (s[1] == 's')
 		return (ft_print_s(args));
+	else if (s[1] == 'p')
+		return (ft_print_p(args));
+	else if (s[1] == 'd')
+		return (ft_print_d(args));
 	return (0);
 }
 

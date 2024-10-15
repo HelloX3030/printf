@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:08:39 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/15 16:43:21 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:30:20 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,26 @@ int	ft_print_s(va_list args)
 	return (len);
 }
 
-static int	ft_print_p(void)
+static int	print_p_helper(unsigned int n)
 {
+	int	len;
+
+	if (n <= 16)
+		write(1, &"0123456789ABCDEFG"[n], 1);
+	else
+	{
+		len += print_p_helper(n / 10);
+		write(1, &"0123456789"[n % 10], 1);
+		return (len);
+	}
 }
 
 int	ft_print_p(va_list args)
 {
-	const unsigned int	*n = va_arg(args, void *);
+	unsigned int	n;
 
-	if (n <= 9)
-		write(1, &"0123456789"[*n], 1);
-	else
-	{
-		ft_putnbr_fd(*n / 10, 1);
-		write(1, &"0123456789"[*n % 10], 1);
-	}
+	n = va_arg(args, void *);
+	return (print_p_helper(n);)
 }
 
 int	ft_print_d(va_list args)
