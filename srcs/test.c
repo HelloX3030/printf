@@ -1,21 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_void_print.c                                    :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 09:41:22 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/16 14:14:29 by lseeger          ###   ########.fr       */
+/*   Created: 2024/10/16 11:54:48 by lseeger           #+#    #+#             */
+/*   Updated: 2024/10/16 13:53:53 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_print_p(va_list args)
+int	main(void)
 {
-	void	*ptr;
+	void	*test;
 
-	ptr = va_arg(args, void *);
-	return (ft_print_hex((uintptr_t)ptr));
+	test = "AAA";
+	printf("%p\n", test);
+	ft_printf("%p\n", test);
+	return (0);
 }

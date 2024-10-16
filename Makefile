@@ -1,17 +1,21 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -fsanitize=address
-NAME = printf.a
+NAME = libftprintf.a
 
 H_FILES := include/ft_printf.h
 SRC_DIR := srcs
 
-SRC_FILES := ft_printf.c
+SRC_FILES := ft_printf.c ft_charprint.c ft_numbprint.c ft_void_print.c ft_print_hex.c
+
+TEST_NAME = test
+TEST_SRC = test.c
 
 vpath %c $(SRC_DIR)
 
 OBJ_DIR := obj
 OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+TEST_OBJ = $(TEST_SRC:.c=.o)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -36,6 +40,13 @@ $(OBJ_DIR):
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
+
+# test 
+test: $(TEST_OBJ) $(NAME)
+	$(CC) $(CFLAGS) -o $(TEST_NAME) $(TEST_OBJ) -L. -lftprintf
+
+$(TEST_OBJ): %.o: %.c $(H_FILES)
+	$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 
 # clean 
 clean:

@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:41:34 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/15 17:26:33 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/16 14:19:50 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	print_specifier(const char *s, va_list args)
 		return (ft_print_s(args));
 	else if (s[1] == 'p')
 		return (ft_print_p(args));
-	else if (s[1] == 'd')
-		return (ft_print_d(args));
+	else if (s[1] == 'i' || s[1] == 'd')
+		return (ft_print_i(args));
 	return (0);
 }
 
 int	print_l(const char *s, int l)
 {
-	write(1, s, l);
+	write(FD, s, l);
 	return (l);
 }
 
@@ -61,9 +61,4 @@ int	ft_printf(const char *s, ...)
 	}
 	va_end(args);
 	return (len);
-}
-
-int	main(void)
-{
-	ft_printf("%s: %s\n", "11111", "22222");
 }

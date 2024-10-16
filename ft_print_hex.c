@@ -1,50 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numbprint.c                                     :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 09:36:50 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/16 14:24:34 by lseeger          ###   ########.fr       */
+/*   Created: 2024/10/16 13:46:11 by lseeger           #+#    #+#             */
+/*   Updated: 2024/10/16 14:16:58 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_print_i_helper(int n)
+int static	ft_print_long_hex_helper(uintptr_t n)
 {
 	int	len;
 
 	len = 0;
-	if (n == INT_MIN)
+	if (n <= 16)
 	{
-		write(FD, "-2147483648", 11);
-		return (11);
-	}
-	if (n < 0)
-	{
-		write(FD, "-", 1);
-		n *= -1;
-		len++;
-	}
-	if (n <= 9)
-	{
-		write(FD, &"0123456789"[n], 1);
-		return (++len);
+		write(1, &"0123456789abcdef"[n], 1);
+		return (1);
 	}
 	else
 	{
-		len += ft_print_i_helper(n / 10);
-		write(FD, &"0123456789"[n % 10], 1);
-		return (++len);
+		len += ft_print_long_hex_helper(n / 16);
+		write(1, &"0123456789abcdef"[n % 16], 1);
+		return (len);
 	}
 }
 
-int	ft_print_i(va_list args)
+int	ft_print_long_hex(uintptr_t n)
 {
-	int	i;
-
-	i = va_arg(args, int);
-	return (ft_print_i_helper(i));
+	write(1, "0x", 2);
+	return (ft_print_long_hex_helper(n));
 }
