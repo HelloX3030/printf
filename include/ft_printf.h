@@ -6,14 +6,14 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:42:09 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/15 16:34:44 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/16 10:12:02 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include <stdarg.h>
 
 int	ft_printf(const char *s, ...);

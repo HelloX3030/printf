@@ -1,6 +1,6 @@
 .DS_Store
 *.txt
-*.pdf
+# *.pdf
 *.a
 # *.md
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_basic_print.c                                   :+:      :+:    :+:   */
+/*   ft_charprint.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 16:08:39 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/15 17:30:20 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/16 09:40:23 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,4 @@ int	ft_print_s(va_list args)
 
 	write(1, str, len);
 	return (len);
-}
-
-static int	print_p_helper(unsigned int n)
-{
-	int	len;
-
-	if (n <= 16)
-		write(1, &"0123456789ABCDEFG"[n], 1);
-	else
-	{
-		len += print_p_helper(n / 10);
-		write(1, &"0123456789"[n % 10], 1);
-		return (len);
-	}
-}
-
-int	ft_print_p(va_list args)
-{
-	unsigned int	n;
-
-	n = va_arg(args, void *);
-	return (print_p_helper(n);)
-}
-
-int	ft_print_d(va_list args)
-{
 }

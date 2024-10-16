@@ -1,49 +1,57 @@
 CC = cc
-C_FLAGS = -Wall -Wextra -Werror -I/libft/libft.h -llbift
+CFLAGS = -Wall -Wextra -Werror
 DEBUG_FLAGS = -g -fsanitize=address
-NAME = libft.a
+NAME = printf.a
 
-H_FILES := printf.h
-SRC_FILES := printf.c
-OBJ_FILES := $(SRC_FILES:.c=.o)
+H_FILES := include/ft_printf.h
+SRC_DIR := srcs
 
-LD_FLAGS := -L/libft/libft.a
+SRC_FILES := ft_printf.c
 
-BONUS_SRC_FILES := 
-BONUS_OBJ_FILES := $(BONUS_SRC_FILES:.c=.o)
+vpath %c $(SRC_DIR)
+
+OBJ_DIR := obj
+OBJ_FILES := $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
+
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIB_FLAGS = -I libft -lft
+
+INCLUDES := -I include -I libft
 
 # all
 all: $(NAME)
 
 # Regular Objs
-$(NAME): $(OBJ_FILES)
-	ar rcs $@ $^ $(LD_FLAGS)
+$(NAME): $(OBJ_FILES) $(LIBFT)
+	cp $(LIBFT) $(NAME)
+	ar rcs $@ $^ 
 
 # Compile OBJ_FILES
-$(OBJ_FILES): %.o: %.c $(H_FILES)
-	$(CC) $(C_FLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c $(H_FILES) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Compile BONUS_OBJ_FILES
-$(BONUS_OBJ_FILES): %.o: %.c $(H_FILES)
-	$(CC) $(C_FLAGS) -c $< -o $@
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 
 # clean 
 clean:
-	rm -f $(OBJ_FILES) $(BONUS_OBJ_FILES)  # Clean both regular and bonus object files
+	make -C $(LIBFT_DIR) clean
+	rm -f $(OBJ_FILES)
 
 # fclean
 fclean: clean
+	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
 # re
 re: fclean all
 
-# bonus
-bonus: $(BONUS_OBJ_FILES)
-	ar rcs $(NAME) $(BONUS_OBJ_FILES)
-
 # debug
-debug: $(C_FLAGS) += $(DEBUG_FLAGS)
+debug: $(CFLAGS) += $(DEBUG_FLAGS)
 debug: re
 
 .PHONY: all clean fclean re bonus debug
