@@ -1,50 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numbprint.c                                     :+:      :+:    :+:   */
+/*   ft_print_s.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 09:36:50 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/16 14:24:34 by lseeger          ###   ########.fr       */
+/*   Created: 2024/10/17 09:48:06 by lseeger           #+#    #+#             */
+/*   Updated: 2024/10/17 11:58:30 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_print_i_helper(int n)
+int	ft_print_s(va_list args)
 {
-	int	len;
+	const char	*str = va_arg(args, char *);
+	size_t		len;
+	ssize_t		result;
 
-	len = 0;
-	if (n == INT_MIN)
+	if (str == NULL)
 	{
-		write(FD, "-2147483648", 11);
-		return (11);
-	}
-	if (n < 0)
-	{
-		write(FD, "-", 1);
-		n *= -1;
-		len++;
-	}
-	if (n <= 9)
-	{
-		write(FD, &"0123456789"[n], 1);
-		return (++len);
+		result = write(FD, "(null)", 6);
+		return ((int)result);
 	}
 	else
 	{
-		len += ft_print_i_helper(n / 10);
-		write(FD, &"0123456789"[n % 10], 1);
-		return (++len);
+		len = ft_strlen(str);
+		result = write(1, str, len);
+		return ((int)result);
 	}
-}
-
-int	ft_print_i(va_list args)
-{
-	int	i;
-
-	i = va_arg(args, int);
-	return (ft_print_i_helper(i));
 }

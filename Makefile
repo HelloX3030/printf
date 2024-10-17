@@ -6,7 +6,7 @@ NAME = libftprintf.a
 H_FILES := include/ft_printf.h
 SRC_DIR := srcs
 
-SRC_FILES := ft_printf.c ft_charprint.c ft_numbprint.c ft_void_print.c ft_print_hex.c
+SRC_FILES := ft_printf.c ft_print_c.c ft_print_s.c ft_print_i.c ft_print_p.c ft_print_u.c ft_print_x.c ft_print_xx.c ft_print_per.c ft_print_l.c
 
 TEST_NAME = test
 TEST_SRC = test.c

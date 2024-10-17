@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_print_xx.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 11:54:48 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 11:31:34 by lseeger          ###   ########.fr       */
+/*   Created: 2024/10/17 10:13:54 by lseeger           #+#    #+#             */
+/*   Updated: 2024/10/17 10:27:56 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	main(void)
+int static	ft_print_xx_helper(unsigned int n)
 {
-	unsigned int	test;
-	int				len1;
-	int				len2;
+	int	len;
 
-	test = 324897;
-	len1 = printf("%u \n", test);
-	len2 = ft_printf("%u \n", test);
-	printf("%i vs %i\n", len1, len2);
-	return (0);
+	len = 0;
+	if (n < 16)
+	{
+		write(FD, &"0123456789ABCDEF"[n], 1);
+		return (len + 1);
+	}
+	else
+	{
+		len += ft_print_xx_helper(n / 16) + 1;
+		write(FD, &"0123456789ABCDEF"[n % 16], 1);
+		return (len);
+	}
+}
+
+int	ft_print_xx(va_list args)
+{
+	unsigned int	n;
+
+	n = va_arg(args, unsigned int);
+	return (ft_print_xx_helper(n));
 }

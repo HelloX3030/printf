@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:41:34 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/16 14:19:50 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/17 12:26:15 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ int	print_specifier(const char *s, va_list args)
 		return (ft_print_p(args));
 	else if (s[1] == 'i' || s[1] == 'd')
 		return (ft_print_i(args));
+	else if (s[1] == 'u')
+		return (ft_print_u(args));
+	else if (s[1] == 'x')
+		return (ft_print_x(args));
+	else if (s[1] == 'X')
+		return (ft_print_xx(args));
+	else if (s[1] == '%')
+		return (ft_print_per());
 	return (0);
-}
-
-int	print_l(const char *s, int l)
-{
-	write(FD, s, l);
-	return (l);
 }
 
 int	ft_printf(const char *s, ...)
@@ -47,18 +49,26 @@ int	ft_printf(const char *s, ...)
 	va_list	args;
 	int		len;
 	int		dif;
+	int		result;
 
 	va_start(args, s);
 	len = 0;
 	while (*s)
 	{
 		dif = get_next_specifier(s);
-		len += print_l(s, dif);
+		result = print_l(s, dif);
+		if (result < 0)
+			return (-1);
+		len += result;
 		s += dif;
-		len += print_specifier(s, args);
 		if (*s == '%')
+		{
+			result = print_specifier(s, args);
+			if (result < 0)
+				return (-1);
+			len += result;
 			s += 2;
+		}
 	}
-	va_end(args);
-	return (len);
+	return (va_end(args), len);
 }
