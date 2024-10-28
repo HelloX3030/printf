@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 09:41:22 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 10:24:59 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 12:21:30 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,38 @@
 
 int static	ft_print_long_hex_helper(uintptr_t n)
 {
-	int	len;
+	int		len;
+	ssize_t	result;
 
 	len = 0;
 	if (n < 16)
 	{
-		write(FD, &"0123456789abcdef"[n], 1);
-		return (len + 1);
+		result = write(1, &"0123456789abcdef"[n], 1);
+		if (result < 0)
+			return (-1);
+		return (len + result);
 	}
 	else
 	{
-		len += ft_print_long_hex_helper(n / 16) + 1;
-		write(FD, &"0123456789abcdef"[n % 16], 1);
-		return (len);
+		result = ft_print_long_hex_helper(n / 16);
+		if (result < 0)
+			return (-1);
+		len += result;
+		result = write(1, &"0123456789abcdef"[n % 16], 1);
+		if (result < 0)
+			return (-1);
+		return (len + result);
 	}
 }
 
 static int	ft_print_long_hex(uintptr_t n)
 {
-	write(FD, "0x", 2);
-	return (ft_print_long_hex_helper(n) + 2);
+	ssize_t	result;
+
+	result = write(1, "0x", 2);
+	if (result < 0)
+		return (-1);
+	return (ft_print_long_hex_helper(n) + result);
 }
 
 int	ft_print_p(va_list args)

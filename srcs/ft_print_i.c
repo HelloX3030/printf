@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numbprint.c                                     :+:      :+:    :+:   */
+/*   ft_print_i.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 09:36:50 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 09:53:23 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 12:33:16 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,50 @@
 
 static int	ft_print_i_helper(int n)
 {
-	int	len;
+	int		len;
+	ssize_t	result;
 
 	len = 0;
-	if (n == INT_MIN)
-	{
-		write(FD, "-2147483648", 11);
-		return (11);
-	}
-	if (n < 0)
-	{
-		write(FD, "-", 1);
-		n *= -1;
-		len++;
-	}
 	if (n <= 9)
 	{
-		write(FD, &"0123456789"[n], 1);
-		return (++len);
+		result = write(1, &"0123456789"[n], 1);
+		if (result < 0)
+			return (0);
+		return (result);
 	}
 	else
 	{
-		len += ft_print_i_helper(n / 10);
-		write(FD, &"0123456789"[n % 10], 1);
-		return (++len);
+		result = ft_print_i_helper(n / 10);
+		if (result < 0)
+			return (-1);
+		len += result;
+		result = write(1, &"0123456789"[n % 10], 1);
+		if (result < 0)
+			return (-1);
+		return (len + result);
 	}
 }
 
 int	ft_print_i(va_list args)
 {
-	int	i;
+	int	n;
+	int	result;
+	int	len;
 
-	i = va_arg(args, int);
-	return (ft_print_i_helper(i));
+	n = va_arg(args, int);
+	if (n == INT_MIN)
+		return (write(1, "-2147483648", 11));
+	len = 0;
+	if (n < 0)
+	{
+		result = write(1, "-", 1);
+		if (result < 0)
+			return (-1);
+		len += result;
+		n *= -1;
+	}
+	result = ft_print_i_helper(n);
+	if (result < 0)
+		return (-1);
+	return (len + result);
 }

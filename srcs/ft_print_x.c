@@ -6,27 +6,38 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 10:08:21 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 10:27:34 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 12:38:40 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int static	ft_print_x_helper(unsigned int n)
+static int	ft_print_x_helper(unsigned int n)
 {
-	int	len;
+	int		len;
+	ssize_t	result;
 
 	len = 0;
 	if (n < 16)
 	{
-		write(FD, &"0123456789abcdef"[n], 1);
-		return (len + 1);
+		result = write(1, &"0123456789abcdef"[n], 1);
+		if (result < 0)
+			return (-1);
+		else
+			return (len + 1);
 	}
 	else
 	{
-		len += ft_print_x_helper(n / 16) + 1;
-		write(FD, &"0123456789abcdef"[n % 16], 1);
-		return (len);
+		result = ft_print_x_helper(n / 16);
+		if (result < 0)
+			return (-1);
+		else
+			len += result;
+		result = write(1, &"0123456789abcdef"[n % 16], 1);
+		if (result < 0)
+			return (-1);
+		else
+			return (len + result);
 	}
 }
 

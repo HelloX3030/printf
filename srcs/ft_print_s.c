@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 09:48:06 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 11:58:30 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 11:56:04 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	ft_print_s(va_list args)
 	ssize_t		result;
 
 	if (str == NULL)
-	{
-		result = write(FD, "(null)", 6);
-		return ((int)result);
-	}
+		return (write(1, "(null)", 6));
 	else
 	{
 		len = ft_strlen(str);

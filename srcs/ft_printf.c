@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:41:34 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 12:26:15 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 11:36:22 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ int	ft_printf(const char *s, ...)
 		dif = get_next_specifier(s);
 		result = print_l(s, dif);
 		if (result < 0)
-			return (-1);
+			return (va_end(args), -1);
 		len += result;
 		s += dif;
 		if (*s == '%')
 		{
 			result = print_specifier(s, args);
 			if (result < 0)
-				return (-1);
+				return (va_end(args), -1);
 			len += result;
 			s += 2;
 		}

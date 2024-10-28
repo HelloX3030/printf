@@ -6,7 +6,7 @@
 /*   By: lseeger <lseeger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 11:42:09 by lseeger           #+#    #+#             */
-/*   Updated: 2024/10/17 12:00:28 by lseeger          ###   ########.fr       */
+/*   Updated: 2024/10/28 11:47:00 by lseeger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include "libft.h"
 # include <stdarg.h>
 # include <stdint.h>
-
-# define FD 1
 
 int	ft_printf(const char *s, ...);
 int	print_l(const char *s, int l);
